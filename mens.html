@@ -4,7 +4,7 @@
 <script type="text/javascript">
 
 $(document).ready(function () {
-	alert('tesy');
+	//alert('tesy');
 	$.ajaxPrefilter( "json script", function( options ) {
 		options.crossDomain = true;
 	});
@@ -22,39 +22,29 @@ $(document).ready(function () {
         data: 'azonosito=09&orvos_id=63&inzulin=false&visit=0',
 		//Access-Control-Allow-Origin: *,
         url: "http://mensmentis.hu/DokirexSoap/DokirexSoapController.php?free_days",
+		responseType: 'json',
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR)
         },
         success: function (msg) {
-            console.log(msg);
+            console.log(msg)            
+			//document.getElementById("time").innerHTML = JSON.stringify(msg,null, "\t");
+			document.getElementById("time").innerHTML = msg;
         }
     });
 });
 setInterval(function() {
 	var dNow = new Date();
 	var s = dNow.getMonth() + '/' + dNow.getDate() + '/' + dNow.getFullYear() + ' ' + dNow.getHours() + ':' + dNow.getMinutes() + ':' + dNow.getSeconds();
-	document.getElementById("time").innerHTML = s;
+	//document.getElementById("time").innerHTML = s;
 }, 1000);
 
-function getIdopont() {
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", 'http://mensmentis.hu/DokirexSoap/DokirexSoapController.php?free_days', true);
-	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState == XMLHttpRequest.DONE) {
-		document.getElementById("time").innerHTML = xhr.responseText;
-			//alert(xhr.responseText);
-		}
-	}
-	xhr.send('azonosito=09&orvos_id=63&inzulin=false&visit=0');
-}
 </script>
 
 <body>
 <h1>Szabad idõpontok</h1>
-<p> Ekkor frissült: <div id="time"/> </p>
-<div id="tes">
-</div>
+<p> Ekkor frissült: <pre id="time"/> </p>
+<p> Ekkor frissült: <pre id="temi">asd</pre> </p>
 
 
 </body
