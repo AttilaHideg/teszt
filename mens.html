@@ -1,0 +1,61 @@
+<html>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js">
+</script>
+<script type="text/javascript">
+
+$(document).ready(function () {
+	alert('tesy');
+	$.ajaxPrefilter( "json script", function( options ) {
+		options.crossDomain = true;
+	});
+	$.ajax({
+        type: 'POST',
+		beforeSend: function(request) {
+			request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+			//request.setRequestHeader('Access-Control-Allow-Origin', '*');
+			//request.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+			//request.setHeader("Access-Control-Allow-Origin", "*")
+		},
+		//xhrFields: { withCredentials: true	},
+        dataType: 'text',
+		crossDomain: true,
+        data: 'azonosito=09&orvos_id=63&inzulin=false&visit=0',
+		//Access-Control-Allow-Origin: *,
+        url: "http://mensmentis.hu/DokirexSoap/DokirexSoapController.php?free_days",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR)
+        },
+        success: function (msg) {
+            console.log(msg);
+        }
+    });
+});
+setInterval(function() {
+	var dNow = new Date();
+	var s = dNow.getMonth() + '/' + dNow.getDate() + '/' + dNow.getFullYear() + ' ' + dNow.getHours() + ':' + dNow.getMinutes() + ':' + dNow.getSeconds();
+	document.getElementById("time").innerHTML = s;
+}, 1000);
+
+function getIdopont() {
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", 'http://mensmentis.hu/DokirexSoap/DokirexSoapController.php?free_days', true);
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+		document.getElementById("time").innerHTML = xhr.responseText;
+			//alert(xhr.responseText);
+		}
+	}
+	xhr.send('azonosito=09&orvos_id=63&inzulin=false&visit=0');
+}
+</script>
+
+<body>
+<h1>Szabad idõpontok</h1>
+<p> Ekkor frissült: <div id="time"/> </p>
+<div id="tes">
+</div>
+
+
+</body
+</html>
